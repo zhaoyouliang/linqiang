@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/goodsID"
+        style="@style/wrap_style"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="35dp"
+        android:text="货号"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goodsSize"
+        style="@style/wrap_style"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:text="尺码"
+        app:layout_constraintLeft_toRightOf="@id/goodsID"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goodsSum"
+        style="@style/wrap_style"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:text="数量"
+        app:layout_constraintLeft_toRightOf="@id/goodsSize"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        style="@style/divide_line"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/goodsSize" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
