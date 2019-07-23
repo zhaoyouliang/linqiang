@@ -147,7 +147,7 @@ public class SearchResultActivity extends BaseActivity {
                 adapter = new GoodsAdapter(SearchResultActivity.this, warehouseAdmUnits);
                 listView.addHeaderView(headView);
                 listView.setAdapter(adapter);
-                //这里的Listview有一种多item的情况，就是货号一样，但是放的库位一样，这时候需要合并，效果图到时候我给你
+                //TODO 这里的Listview有一种多item的情况，就是货号一样，但是放的库位一样，这时候需要合并，效果图到时候我给你
             }
         });
     }
