@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.linqiang.warehouse.BaseActivity;
 import com.linqiang.warehouse.R;
@@ -72,7 +73,7 @@ public class InOutProductActivity extends BaseActivity {
         outType = getIntent().getExtras().getInt("outType");
         setTitle();
         View headView = getLayoutInflater().inflate(R.layout.item_goods_sums, null);
-        adapter = new GoodsInfoAdapter();
+        adapter = new GoodsInfoAdapter(this);
         listView.addHeaderView(headView);
         listView.setAdapter(adapter);
     }
@@ -102,12 +103,14 @@ public class InOutProductActivity extends BaseActivity {
             byte temp = intent.getByteExtra(ScanManager.BARCODE_TYPE_TAG, (byte) 0);
             Log.i("debug", "----codetype--" + temp);
             barcodeStr = new String(barcode, 0, barcodelen);
-            if (barcodeStr.length() == 10) {
+            if (barcodeStr.length() == 9) {
                 storageNo = barcodeStr;
-            } else if (barcodeStr.length() == 9 || barcodeStr.length() == 12) {
+            } else if (barcodeStr.length() == 12 || barcodeStr.length() == 16) {
                 if (!TextUtils.isEmpty(storageNo)) {
                     goodsBarcode = barcodeStr;
                     listGoodsBarcode.add(goodsBarcode);
+                    //TODO 这里就是每次扫条形码 会把条形码添加到list，现在列表写的有问题 需要重写
+                    adapter.notifyData(listGoodsBarcode);
                 } else {
                     ToastUtils.show(InOutProductActivity.this, "请先扫描库位号");
                 }
@@ -117,6 +120,7 @@ public class InOutProductActivity extends BaseActivity {
             if (storageNo != null)
                 libNumber.setText("库位号: " + storageNo);
             Log.e("barCode ", barcodeStr);
+            Log.e("oooo", JSON.toJSONString(listGoodsBarcode));
         }
     };
 
@@ -164,7 +168,7 @@ public class InOutProductActivity extends BaseActivity {
         variablesBean.setOperationMan("测试员");
         variablesBean.setOutType(outType);
 
-        unitInfosBean.setCode("K1N19001160");
+        unitInfosBean.setCode("C2N301001160");
         unitInfosBean.setQuantity(1000);
         unitInfosBean.setStatus(1);
 

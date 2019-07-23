@@ -12,25 +12,29 @@ import android.widget.TextView;
 import com.linqiang.warehouse.R;
 import com.linqiang.warehouse.bean.GoodsInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsInfoAdapter extends BaseAdapter {
     private Context context;
-    private List<GoodsInfo> goodsInfos;
+    private List<String> listGoodsBarcode = new ArrayList<>();
 
-    public GoodsInfoAdapter(Context context, List<GoodsInfo> goodsInfos) {
+    /* public GoodsInfoAdapter(Context context, List<GoodsInfo> goodsInfos) {
+         this.context = context;
+         this.goodsInfos = goodsInfos;
+     }*/
+    public GoodsInfoAdapter(Context context) {
         this.context = context;
-        this.goodsInfos = goodsInfos;
     }
 
     @Override
     public int getCount() {
-        return goodsInfos.size();
+        return listGoodsBarcode == null ? 0 : listGoodsBarcode.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return goodsInfos.get(position);
+        return listGoodsBarcode.get(position);
     }
 
     @Override
@@ -49,10 +53,18 @@ public class GoodsInfoAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Log.e("goodsInfos", goodsInfos.get(position).getGoodsNumber() + "");
-        holder.textView.setText(goodsInfos.get(position).getGoodsNumber()+"    "+ goodsInfos.get(position).getGoodsSize());
-        holder.editSum.setText(0);
+        String barCode = listGoodsBarcode.get(position);
+        String goodsId = barCode.substring(0, barCode.length() - 3);
+        String size = barCode.substring(barCode.length() - 3);
+        Log.e("goodsInfos", goodsId + "---" + size);
+        holder.textView.setText(goodsId + "    " + size);
+        holder.editSum.setText("0");
         return convertView;
+    }
+
+    public void notifyData(List<String> listGoodsBarcode) {
+        this.listGoodsBarcode = listGoodsBarcode;
+        notifyDataSetChanged();
     }
 
     class ViewHolder {

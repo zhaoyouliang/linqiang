@@ -27,6 +27,7 @@ import com.linqiang.warehouse.adapter.GoodsAdapter;
 import com.linqiang.warehouse.bean.request.SearchResultReq;
 import com.linqiang.warehouse.bean.response.SearchResultResp;
 import com.linqiang.warehouse.net.Network;
+import com.linqiang.warehouse.util.ToastUtils;
 import com.linqiang.warehouse.view.SearchView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -103,7 +104,7 @@ public class SearchResultActivity extends BaseActivity {
 
     private void requestSearchResult() {
         SearchResultReq.VariablesBean variablesBean = new SearchResultReq.VariablesBean();
-        variablesBean.setSkuCode("K1N19001150");
+        variablesBean.setSkuCode(barcodeStr);
         variablesBean.setToken("97A0FC12B70423A202602D986E5296CD");
         SearchResultReq searchResultReq = new SearchResultReq();
         searchResultReq.setVariables(variablesBean);
@@ -123,6 +124,10 @@ public class SearchResultActivity extends BaseActivity {
                 Log.e("response success", response);
                 Gson gson = new Gson();
                 SearchResultResp resultResp = gson.fromJson(response, SearchResultResp.class);
+                if (resultResp.getData().getAdmFindAdmInfoByProductCode() == null){
+                    ToastUtils.show(SearchResultActivity.this,"不存在该商品");
+                    return;
+                }
                 SearchResultResp.DataBean.AdmFindAdmInfoByProductCodeBean.ProductInfoBean productInfo = resultResp.getData().getAdmFindAdmInfoByProductCode().getProductInfo();
                 warehouseAdmUnits = resultResp.getData().getAdmFindAdmInfoByProductCode().getWarehouseAdmUnits();
 
@@ -142,6 +147,7 @@ public class SearchResultActivity extends BaseActivity {
                 adapter = new GoodsAdapter(SearchResultActivity.this, warehouseAdmUnits);
                 listView.addHeaderView(headView);
                 listView.setAdapter(adapter);
+                //这里的Listview有一种多item的情况，就是货号一样，但是放的库位一样，这时候需要合并，效果图到时候我给你
             }
         });
     }
